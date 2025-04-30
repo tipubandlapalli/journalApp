@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,23 +30,28 @@ public class UserService {
         return new ResponseEntity<>("user not found",HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<?> createUser(User user) {
         user.setJouEntries(new ArrayList<JournalEntry>());
-        user.setDate(new Date(System.currentTimeMillis()));
+        user.setLocalDateTime(LocalDateTime.now());
         return new ResponseEntity<>(uRepo.save(user),HttpStatus.CREATED);
     }
 
+
+    @Transactional
     public ResponseEntity<?> editUser(ObjectId userId, User user) {
         User old = uRepo.findById(userId).orElse(null);
         if(old != null) {
             String un = user.getUsername();
-            if (un != null && !un.isEmpty()) old.setUsername(un);
+            if (!un.isEmpty()) old.setUsername(un);
             String pw = user.getPassword();
-            if (pw != null && !pw.isEmpty()) old.setPassword(pw);
+            if (!pw.isEmpty()) old.setPassword(pw);
             return new ResponseEntity<>(uRepo.save(old), HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>("user not found",HttpStatus.EXPECTATION_FAILED);
     }
+
+    @Transactional
     public ResponseEntity<?> delUser(String username){
         User old = uRepo.findByUsername(username);
         if(old != null) {

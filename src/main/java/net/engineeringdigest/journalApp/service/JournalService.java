@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,9 +39,11 @@ public class JournalService {
         return new ResponseEntity<>("user not found",HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<?> createNewJournal(String username,JournalEntry myEntry) {
         User user = userRepo.findByUsername(username);
         if(user != null){
+            myEntry.setLocalDateTime(LocalDateTime.now());
             JournalEntry saved = jRepo.save(myEntry);
             user.getJouEntries().add(saved);
             userRepo.save(user);
@@ -46,7 +51,7 @@ public class JournalService {
         }
         return new ResponseEntity<>("user not found",HttpStatus.BAD_REQUEST);
     }
-
+    @Transactional
     public ResponseEntity<?> editJournalById(String username,ObjectId id,JournalEntry entry) {
         User user = userRepo.findByUsername(username);
         if(user != null) {
@@ -66,6 +71,7 @@ public class JournalService {
         return new ResponseEntity<>("user not found",HttpStatus.BAD_GATEWAY);
     }
 
+    @Transactional
     public ResponseEntity<?> delJournalById(String  username,ObjectId id) {
         User user = userRepo.findByUsername(username);
         if(user != null) {

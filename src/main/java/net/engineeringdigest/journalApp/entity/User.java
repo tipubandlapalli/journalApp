@@ -1,6 +1,6 @@
 package net.engineeringdigest.journalApp.entity;
 
-import com.sun.istack.internal.NotNull;
+import com.mongodb.lang.NonNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,11 +24,11 @@ public class User {
     @Id
     private ObjectId id;
     @Indexed(unique = true)
-    @NotNull
+    @NonNull
     private String username;
-    @NotNull
+    @NonNull
     private String password;
-    private Date date;
+    private LocalDateTime localDateTime;
     @DBRef
     private List<JournalEntry> jouEntries;
 }
