@@ -16,7 +16,7 @@ public class userController {
     public ResponseEntity<?> getByUsername(@PathVariable String username){
         return service.getByUsername(username);
     }
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user){
         return service.createUser(user);
     }
