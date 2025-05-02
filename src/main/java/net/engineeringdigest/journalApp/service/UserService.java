@@ -8,6 +8,9 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,10 @@ public class UserService {
     @Autowired
     private UserRepo uRepo ;
 
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authManager;
     @Autowired
     private JournalRepo journalRepo;
     public ResponseEntity<?> getByUsername(String username) {
@@ -61,5 +68,12 @@ public class UserService {
             return new ResponseEntity<>("deleted",HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>("user not found",HttpStatus.CONFLICT);
+    }
+
+    public ResponseEntity<?> verify(User user) {
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+        if(authentication.isAuthenticated()){
+            return new ResponseEntity<>(jwtService.generateToken(user.getUsername()),HttpStatus.ACCEPTED);
+        } else return new ResponseEntity<>("not authenticated",HttpStatus.BAD_REQUEST);
     }
 }

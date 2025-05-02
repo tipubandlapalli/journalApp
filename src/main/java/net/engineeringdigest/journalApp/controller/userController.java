@@ -16,8 +16,12 @@ public class userController {
     public ResponseEntity<?> getByUsername(@PathVariable String username){
         return service.getByUsername(username);
     }
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user){
+        return service.verify(user);
+    }
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@RequestBody User user){
+    public ResponseEntity<?> registerUser(@RequestBody User user){
         return service.createUser(user);
     }
     @PutMapping("{userId}")
@@ -28,6 +32,5 @@ public class userController {
     public ResponseEntity<?> delUser(@PathVariable String username){
         return service.delUser(username);
     }
-
 
 }
