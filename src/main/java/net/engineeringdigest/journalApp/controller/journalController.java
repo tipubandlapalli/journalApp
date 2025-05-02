@@ -16,28 +16,30 @@ public class journalController {
     @Autowired
     private JournalService service;
 
-    @GetMapping("/{username}")
-    public ResponseEntity<?> getAllJournalsOfUser(@PathVariable String username){
-        return service.getAllJournalsOfUser(username);
+    @Autowired
+    private GetUsernameByToken getUsernameByToken;
+    @GetMapping
+    public ResponseEntity<?> getAllJournalsOfUser(){
+        return service.getAllJournalsOfUser(getUsernameByToken.getUsernameByAuthenticatedToken());
     }
 
-    @GetMapping("/{username}/{id}")
-    public ResponseEntity<?> getById(@PathVariable String username,@PathVariable ObjectId id){
-        return service.getJournalById(username,id);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable ObjectId id){
+        return service.getJournalById(getUsernameByToken.getUsernameByAuthenticatedToken(),id);
     }
 
-    @PostMapping("/{username}")
-    public ResponseEntity<?> createJournal(@RequestBody JournalEntry myEntry,@PathVariable String username){
-        return service.createNewJournal(username,myEntry);
+    @PostMapping
+    public ResponseEntity<?> createJournal(@RequestBody JournalEntry myEntry){
+        return service.createNewJournal(getUsernameByToken.getUsernameByAuthenticatedToken(),myEntry);
     }
 
-    @PutMapping("/{username}/{id}")
-    public ResponseEntity<?> editJournal(@PathVariable String username,@PathVariable ObjectId id, @RequestBody JournalEntry myEntry){
-        return service.editJournalById(username,id,myEntry);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editJournal(@PathVariable ObjectId id, @RequestBody JournalEntry myEntry){
+        return service.editJournalById(getUsernameByToken.getUsernameByAuthenticatedToken(),id,myEntry);
     }
 
-    @DeleteMapping("/{username}/{id}")
-    public void delById(@PathVariable String username,@PathVariable ObjectId id){
-        service.delJournalById(username,id);
+    @DeleteMapping("/{id}")
+    public void delById(@PathVariable ObjectId id){
+        service.delJournalById(getUsernameByToken.getUsernameByAuthenticatedToken(),id);
     }
 }

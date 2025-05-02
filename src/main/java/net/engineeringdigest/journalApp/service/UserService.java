@@ -38,6 +38,8 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<?> createUser(User user) {
+        boolean isUserAlreadyExist = uRepo.existsByUsername(user.getUsername());
+        if (isUserAlreadyExist) return new ResponseEntity<>("user exists already",HttpStatus.BAD_REQUEST);
         user.setJouEntries(new ArrayList<JournalEntry>());
         user.setLocalDateTime(LocalDateTime.now());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
@@ -46,8 +48,11 @@ public class UserService {
 
 
     @Transactional
-    public ResponseEntity<?> editUser(ObjectId userId, User user) {
-        User old = uRepo.findById(userId).orElse(null);
+    public ResponseEntity<?> editUser(String username, User user) {
+        if(uRepo.existsByUsername(user.getUsername())) {
+            return new ResponseEntity<>("user already exists",HttpStatus.CONFLICT);
+        }
+        User old = uRepo.findByUsername(username);
         if(old != null) {
             String un = user.getUsername();
             if (!un.isEmpty()) old.setUsername(un);

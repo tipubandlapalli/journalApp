@@ -1,8 +1,3 @@
-
-
-
-
-
 package net.engineeringdigest.journalApp.service;
 
 import io.jsonwebtoken.Claims;
@@ -39,7 +34,7 @@ public class JwtService {
                 .claims(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 15)) // 15 hours
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // 30 min
                 .signWith(getKey())
                 .compact();
     }

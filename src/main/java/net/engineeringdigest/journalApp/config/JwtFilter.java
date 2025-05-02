@@ -27,19 +27,11 @@ public class JwtFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
-        System.out.println(authHeader);
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            try {
-                System.out.println(token);
-                username = jwtService.extractUserName(token);
-            }catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("fuck off here");
-            }
+            username = jwtService.extractUserName(token);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                System.out.println(username);
                 UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
                 if (jwtService.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

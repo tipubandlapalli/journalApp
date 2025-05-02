@@ -2,7 +2,6 @@ package net.engineeringdigest.journalApp.controller;
 
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +11,9 @@ import org.springframework.web.bind.annotation.*;
 public class userController {
     @Autowired
     private UserService service;
-    @GetMapping("/{username}")
-    public ResponseEntity<?> getByUsername(@PathVariable String username){
-        return service.getByUsername(username);
-    }
+    @Autowired
+    private GetUsernameByToken getUsernameByToken;
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user){
         return service.verify(user);
@@ -24,13 +22,19 @@ public class userController {
     public ResponseEntity<?> registerUser(@RequestBody User user){
         return service.createUser(user);
     }
-    @PutMapping("{userId}")
-    public ResponseEntity<?> editUser(@PathVariable ObjectId userId, @RequestBody User user){
-        return service.editUser(userId,user);
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getByUsername(){
+        return service.getByUsername(getUsernameByToken.getUsernameByAuthenticatedToken());
     }
-    @DeleteMapping("{username}")
-    public ResponseEntity<?> delUser(@PathVariable String username){
-        return service.delUser(username);
+
+    @PutMapping
+    public ResponseEntity<?> editUser(@RequestBody User user){
+        return service.editUser(getUsernameByToken.getUsernameByAuthenticatedToken(),user);
+    }
+    @DeleteMapping
+    public ResponseEntity<?> delUser(){
+        return service.delUser(getUsernameByToken.getUsernameByAuthenticatedToken());
     }
 
 }
