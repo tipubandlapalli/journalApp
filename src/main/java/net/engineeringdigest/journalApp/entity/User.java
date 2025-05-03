@@ -31,4 +31,5 @@ public class User {
     private LocalDateTime localDateTime;
     @DBRef
     private List<JournalEntry> jouEntries;
+    private List<String> roles;
 }

@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                        .antMatchers("/user/login").permitAll()
                         .antMatchers("/user/register").permitAll()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

@@ -7,7 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.stream.Collectors;
+
 @Component
 @NoArgsConstructor
 public class UserPrincipal implements UserDetails {
@@ -18,7 +19,10 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+    //    return Collections.singleton(user.getRoles().forEach(role ->   new SimpleGrantedAuthority(role) ));
+        // roles should be with prefix ROLE_
+        return user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        // role -> new SimpleGrantedAuthority(role)
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class UserService {
         user.setJouEntries(new ArrayList<JournalEntry>());
         user.setLocalDateTime(LocalDateTime.now());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRoles(Arrays.asList("ROLE_USER"));
         return new ResponseEntity<>(uRepo.save(user),HttpStatus.CREATED);
     }
 
