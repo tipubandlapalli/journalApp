@@ -1,0 +1,8 @@
+# Ignore the original secrets file
+/src/main/resources/application-secrets.properties
+
+# Ignore compiled secrets file
+/target/classes/application-secrets.properties
+
+# entire target
+/target/
