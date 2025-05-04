@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: application-secrets.properties
+
+  data:
+    mongodb:
+      database: journalDB
+      uri: mongodb+srv://${mongodb.username}:${mongodb.password}@${mongodb.url}
+      auto-index-creation: ${mongodb.auto-index-creation-bool}

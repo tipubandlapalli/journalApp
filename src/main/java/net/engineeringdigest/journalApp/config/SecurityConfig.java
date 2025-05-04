@@ -25,7 +25,8 @@ public class SecurityConfig {
     @Autowired
     private MyUserDetailsService userDetailsService;
     @Autowired
-    private JwtFilter jwtFilter;@Bean
+    private JwtFilter jwtFilter;
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
