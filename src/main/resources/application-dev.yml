@@ -1,9 +1,9 @@
 spring:
-  config:
-    import: application-secrets.properties
-
   data:
     mongodb:
       database: journal_DevelopmentDB
-      uri: mongodb+srv://${mongodb.username}:${mongodb.password}@${mongodb.url}
-      auto-index-creation: ${mongodb.auto-index-creation-bool}
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_URL}
+      auto-index-creation: ${MONGO_AUTO_INDEX_CREATION_BOOL}
+server:
+  address: 0.0.0.0
+  port: 8080
