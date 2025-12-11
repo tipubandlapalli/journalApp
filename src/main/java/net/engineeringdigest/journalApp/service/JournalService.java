@@ -29,10 +29,10 @@ public class JournalService {
 
 
     public boolean addNewJournal(Journal journal){
-        Optional<Journal> existing = journalRepository.findById(journal.getId());
-        if(existing.isPresent()){
-            return false;
-        }
+//        Optional<Journal> existing = journalRepository.findById(journal.getId());
+//        if(existing.isPresent()){
+//            return false;
+//        }
         journalRepository.save(journal);
         return true;
     }
