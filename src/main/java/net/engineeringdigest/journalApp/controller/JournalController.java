@@ -32,12 +32,12 @@ public class JournalController {
     }
 
     @DeleteMapping("id/{id}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable ObjectId id){
+    public ResponseEntity<Void> deleteById(@PathVariable ObjectId id){
         return journalService.deleteJournalById(id);
     }
 
     @PutMapping("id/{id}")
-    public ResponseEntity<Boolean> edit(@PathVariable ObjectId id, @RequestBody Journal journal){
+    public ResponseEntity<Void> edit(@PathVariable ObjectId id, @RequestBody Journal journal){
       return journalService.editJournalById(id, journal);
     }
 }

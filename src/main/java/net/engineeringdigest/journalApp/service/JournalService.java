@@ -24,13 +24,13 @@ public class JournalService {
     }
 
     public ResponseEntity<List<Journal>> getAllJournals(){
-        return new ResponseEntity<>(journalRepository.findAll(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(journalRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity<Journal> getJournalById(ObjectId id){
         Optional<Journal> journal = journalRepository.findById(id);
         if(journal.isPresent()) {
-            return new ResponseEntity<>(journal.get(), HttpStatus.FOUND);
+            return new ResponseEntity<>(journal.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -42,22 +42,22 @@ public class JournalService {
             Journal newJournal = journalRepository.save(journal);
             return new ResponseEntity<>(newJournal, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<Boolean> deleteJournalById(ObjectId id){
+    public ResponseEntity<Void> deleteJournalById(ObjectId id){
         Optional<Journal> existing = journalRepository.findById(id);
         if(!existing.isPresent()){
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
         journalRepository.deleteById(id);
-        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<Boolean> editJournalById(ObjectId id, Journal journal){
+    public ResponseEntity<Void> editJournalById(ObjectId id, Journal journal){
         Optional<Journal> existing = journalRepository.findById(id);
         if(!existing.isPresent()){
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
 
         if(check(journal.getTitle())) existing.get().setTitle(journal.getTitle());
@@ -65,6 +65,6 @@ public class JournalService {
 
         journalRepository.save(existing.get());
 
-        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

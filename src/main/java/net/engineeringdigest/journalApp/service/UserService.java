@@ -25,13 +25,13 @@ public class UserService {
             private JournalService journalService;
 
     public ResponseEntity<List<UserEntity>> getAllUsers(){
-        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity<UserEntity> findUserByUserName(String userName){
         Optional<UserEntity> user = userRepository.findByUserName(userName);
         if(user.isPresent()){
-            return new ResponseEntity<>(user.get(), HttpStatus.FOUND);
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -53,7 +53,7 @@ public class UserService {
                 if(!userEntity.getUserName().isEmpty()) old.get().setUserName(userEntity.getUserName());
                 if(!userEntity.getPassword().isEmpty()) old.get().setPassword(userEntity.getPassword());
                 userRepository.save(old.get());
-                return new ResponseEntity<>( HttpStatus.CREATED);
+                return new ResponseEntity<>( HttpStatus.NO_CONTENT);
             }
         }
         return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
@@ -66,7 +66,7 @@ public class UserService {
                 journalService.deleteJournalById(journal.getId());
             }
             userRepository.deleteByUserName(userName);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -74,7 +74,7 @@ public class UserService {
     public ResponseEntity<List<Journal>> getAllJournals(String userName) {
         Optional<UserEntity> user = userRepository.findByUserName(userName);
         if(user.isPresent()){
-            return new ResponseEntity<>(user.get().getJournals(), HttpStatus.FOUND);
+            return new ResponseEntity<>(user.get().getJournals(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

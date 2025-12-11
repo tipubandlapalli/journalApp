@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -23,12 +24,12 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("user/{userName}")
+    @GetMapping("{userName}")
     public ResponseEntity<UserEntity> getUserByUserName(@PathVariable String userName){
         return userService.findUserByUserName(userName);
     }
 
-    @GetMapping("user/{userName}/journal")
+    @GetMapping("{userName}/journal")
     public ResponseEntity<List<Journal>> getAllJournals(@PathVariable String userName){
         return userService.getAllJournals(userName);
     }
@@ -37,13 +38,13 @@ public class UserController {
         return userService.createUser(userEntity);
     }
 
-    @PutMapping("user/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Void> editUserById(@PathVariable ObjectId id, @RequestBody UserEntity userEntity){
         userEntity.setId(id);
         return userService.editUserById(userEntity);
     }
 
-    @DeleteMapping("user/{userName}")
+    @DeleteMapping("{userName}")
     public ResponseEntity<Void> deleteUserByUserName(@PathVariable String userName){
         return userService.deleteUserByUserName(userName);
     }
