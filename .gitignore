@@ -33,5 +33,4 @@ build/
 ### VS Code ###
 .vscode/
 
-dev.env
-prod.env
+TOP_SECRET_ENV_ALWAYS_GITIGNORE/
