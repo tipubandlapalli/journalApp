@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.service;
+package net.engineeringdigest.journalApp.service.user;
 
 import net.engineeringdigest.journalApp.entity.Journal;
 import net.engineeringdigest.journalApp.entity.UserEntity;
@@ -7,11 +7,14 @@ import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,8 @@ public class UserService {
 
     @Autowired
             private JournalRepository journalRepository;
+
+    private final static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public ResponseEntity<List<UserEntity>> getAllUsers(){
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
@@ -37,10 +42,12 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<UserEntity> createUser(UserEntity userEntity){
-        if(userEntity.getId() == null
-                && userEntity.getPassword() != null && userEntity.getUserName() != null
-                && !userRepository.findByUserName(userEntity.getUserName()).isPresent())
-        {
+        if(     userEntity.getId() == null &&
+                userEntity.getPassword() != null && userEntity.getUserName() != null &&
+                !userRepository.findByUserName(userEntity.getUserName()).isPresent()
+        ){
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+            userEntity.setRoles(Arrays.asList("USER"));
             userEntity.setLocalDateTime(LocalDateTime.now());
             userEntity.setJournals(new ArrayList<>());
             UserEntity saved = userRepository.save(userEntity);

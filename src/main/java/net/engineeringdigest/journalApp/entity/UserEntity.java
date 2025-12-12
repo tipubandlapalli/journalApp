@@ -31,5 +31,7 @@ public class UserEntity {
     @DBRef
     private List<Journal> journals;
 
+    private List<String> roles;
+
     private LocalDateTime localDateTime;
 }

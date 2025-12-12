@@ -5,4 +5,4 @@ spring:
   security:
     user:
       name: user
-#      password: pwd
+      password: pwd

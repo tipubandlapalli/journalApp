@@ -2,7 +2,7 @@ package net.engineeringdigest.journalApp.controller;
 
 import net.engineeringdigest.journalApp.entity.Journal;
 import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.service.UserService;
+import net.engineeringdigest.journalApp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +29,6 @@ public class UserController {
     @GetMapping("{userName}/journal")
     public ResponseEntity<List<Journal>> getAllJournalsByUsername(@PathVariable String userName){
         return userService.getAllJournalsByUsername(userName);
-    }
-    @PostMapping
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity){
-        return userService.createUser(userEntity);
     }
 
     @PutMapping("id/{id}")
