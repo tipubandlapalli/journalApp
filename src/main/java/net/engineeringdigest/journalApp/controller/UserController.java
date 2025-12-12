@@ -16,12 +16,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-//    @GetMapping
-//    public ResponseEntity<List<UserEntity>> getAllUsers(){
-//        return userService.getAllUsers();
-//    }
-
+    
     @GetMapping()
     public ResponseEntity<UserEntity> getUserByUserName(){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
