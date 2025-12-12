@@ -35,7 +35,10 @@ public class UserService {
     }
 
     public ResponseEntity<UserEntity> createUser(UserEntity userEntity){
-        if(userEntity.getId() == null){
+        if(userEntity.getId() == null
+                && userEntity.getPassword() != null && userEntity.getUserName() != null
+                && !userRepository.findByUserName(userEntity.getUserName()).isPresent())
+        {
             userEntity.setLocalDateTime(LocalDateTime.now());
             userEntity.setJournals(new ArrayList<>());
             UserEntity saved = userRepository.save(userEntity);

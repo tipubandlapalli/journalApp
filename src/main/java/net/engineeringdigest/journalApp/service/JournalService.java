@@ -4,7 +4,6 @@ import net.engineeringdigest.journalApp.entity.Journal;
 import net.engineeringdigest.journalApp.entity.UserEntity;
 import net.engineeringdigest.journalApp.repository.JournalRepository;
 import net.engineeringdigest.journalApp.repository.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class JournalService {
         return new ResponseEntity<>(journalRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Journal> getJournalOfUserById(ObjectId id, String userName) {
+    public ResponseEntity<Journal> getJournalOfUserById(String id, String userName) {
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {
             Journal journal = userEntity.get().getJournals().stream().filter(j -> j.getId().equals(id)).findFirst().orElse(null);
@@ -52,7 +51,7 @@ public class JournalService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Void> deleteJournalById(ObjectId id, String userName){
+    public ResponseEntity<Void> deleteJournalById(String id, String userName){
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {
             boolean isDeleted = userEntity.get().getJournals().removeIf(j -> j.getId().equals(id));
@@ -65,7 +64,7 @@ public class JournalService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Void> editJournalById(ObjectId id, Journal journal, String userName){
+    public ResponseEntity<Void> editJournalById(String id, Journal journal, String userName){
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {
             Optional<Journal> existingJournal = userEntity.get().getJournals().stream().filter(j -> j.getId().equals(id)).findAny();

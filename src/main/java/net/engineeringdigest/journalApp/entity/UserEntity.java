@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NonNull;
 
 import lombok.ToString;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -19,7 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserEntity {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     @NonNull // NonNull -> lombok
     @Indexed(unique = true)

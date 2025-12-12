@@ -3,7 +3,6 @@ package net.engineeringdigest.journalApp.controller;
 import net.engineeringdigest.journalApp.entity.Journal;
 import net.engineeringdigest.journalApp.service.JournalService;
 import net.engineeringdigest.journalApp.service.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class JournalController {
     }
 
     @GetMapping("id/{id}/{userName}")
-    public ResponseEntity<Journal> getById(@PathVariable ObjectId id,@PathVariable String userName){
+    public ResponseEntity<Journal> getById(@PathVariable String id,@PathVariable String userName){
         return journalService.getJournalOfUserById(id, userName);
     }
 
@@ -34,12 +33,12 @@ public class JournalController {
     }
 
     @DeleteMapping("id/{id}/{userName}")
-    public ResponseEntity<Void> deleteById(@PathVariable ObjectId id, @PathVariable String userName){
+    public ResponseEntity<Void> deleteById(@PathVariable String id, @PathVariable String userName){
         return journalService.deleteJournalById(id, userName);
     }
 
     @PutMapping("id/{id}/{userName}")
-    public ResponseEntity<Void> edit(@PathVariable ObjectId id, @RequestBody Journal journal,  @PathVariable String userName){
+    public ResponseEntity<Void> edit(@PathVariable String id, @RequestBody Journal journal,  @PathVariable String userName){
       return journalService.editJournalById(id, journal, userName);
     }
 }
