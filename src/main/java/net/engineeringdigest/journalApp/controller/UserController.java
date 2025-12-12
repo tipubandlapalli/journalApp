@@ -3,11 +3,9 @@ package net.engineeringdigest.journalApp.controller;
 import net.engineeringdigest.journalApp.entity.Journal;
 import net.engineeringdigest.journalApp.entity.UserEntity;
 import net.engineeringdigest.journalApp.service.UserService;
-import org.apache.catalina.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,15 +28,15 @@ public class UserController {
     }
 
     @GetMapping("{userName}/journal")
-    public ResponseEntity<List<Journal>> getAllJournals(@PathVariable String userName){
-        return userService.getAllJournals(userName);
+    public ResponseEntity<List<Journal>> getAllJournalsByUsername(@PathVariable String userName){
+        return userService.getAllJournalsByUsername(userName);
     }
     @PostMapping
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity){
         return userService.createUser(userEntity);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("id/{id}")
     public ResponseEntity<Void> editUserById(@PathVariable ObjectId id, @RequestBody UserEntity userEntity){
         userEntity.setId(id);
         return userService.editUserById(userEntity);

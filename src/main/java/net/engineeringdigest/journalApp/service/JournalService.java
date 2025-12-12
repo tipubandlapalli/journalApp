@@ -1,8 +1,9 @@
 package net.engineeringdigest.journalApp.service;
 
-import com.sun.scenario.effect.Offset;
 import net.engineeringdigest.journalApp.entity.Journal;
+import net.engineeringdigest.journalApp.entity.UserEntity;
 import net.engineeringdigest.journalApp.repository.JournalRepository;
+import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,53 +19,64 @@ import java.util.Optional;
 public class JournalService {
     @Autowired
         private JournalRepository journalRepository;
-
-    private static<T extends String> boolean check(T t){
-        return t != null && !t.isEmpty();
-    }
+    @Autowired
+        private UserRepository userRepository;
 
     public ResponseEntity<List<Journal>> getAllJournals(){
         return new ResponseEntity<>(journalRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Journal> getJournalById(ObjectId id){
-        Optional<Journal> journal = journalRepository.findById(id);
-        if(journal.isPresent()) {
-            return new ResponseEntity<>(journal.get(), HttpStatus.OK);
+    public ResponseEntity<Journal> getJournalOfUserById(ObjectId id, String userName) {
+        Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
+        if (userEntity.isPresent()) {
+            Journal journal = userEntity.get().getJournals().stream().filter(j -> j.getId().equals(id)).findFirst().orElse(null);
+            if (journal != null) return new ResponseEntity<>(journal, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
-    public ResponseEntity<Journal> addNewJournal(Journal journal){
-        if(journal.getId() == null){
-            journal.setLocalDateTime(LocalDateTime.now());
-            Journal newJournal = journalRepository.save(journal);
-            return new ResponseEntity<>(newJournal, HttpStatus.CREATED);
+    public ResponseEntity<Journal> addNewJournal(Journal journal, String userName){
+        Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
+        if (userEntity.isPresent()) {
+            if(journal.getId() == null){
+                journal.setLocalDateTime(LocalDateTime.now());
+                Journal saved = journalRepository.save(journal);
+                userEntity.get().getJournals().add(saved);
+                userRepository.save(userEntity.get());
+                return new ResponseEntity<>(saved, HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Void> deleteJournalById(ObjectId id){
-        Optional<Journal> existing = journalRepository.findById(id);
-        if(!existing.isPresent()){
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> deleteJournalById(ObjectId id, String userName){
+        Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
+        if (userEntity.isPresent()) {
+            boolean isDeleted = userEntity.get().getJournals().removeIf(j -> j.getId().equals(id));
+            if(isDeleted) {
+                journalRepository.deleteById(id);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        journalRepository.deleteById(id);
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Void> editJournalById(ObjectId id, Journal journal){
-        Optional<Journal> existing = journalRepository.findById(id);
-        if(!existing.isPresent()){
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> editJournalById(ObjectId id, Journal journal, String userName){
+        Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
+        if (userEntity.isPresent()) {
+            Optional<Journal> existingJournal = userEntity.get().getJournals().stream().filter(j -> j.getId().equals(id)).findAny();
+            if(existingJournal.isPresent()) {
+                if(journal.getTitle() != null) existingJournal.get().setTitle(journal.getTitle());
+                if(journal.getContent() != null) existingJournal.get().setContent(journal.getContent());
+                journalRepository.save(existingJournal.get());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        if(check(journal.getTitle())) existing.get().setTitle(journal.getTitle());
-        if(check(journal.getContent())) existing.get().setContent(journal.getContent());
-
-        journalRepository.save(existing.get());
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
