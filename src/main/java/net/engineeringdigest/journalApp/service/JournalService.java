@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +36,7 @@ public class JournalService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
+    @Transactional
     public ResponseEntity<Journal> addNewJournal(Journal journal, String userName){
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {
@@ -51,6 +52,7 @@ public class JournalService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Transactional
     public ResponseEntity<Void> deleteJournalById(String id, String userName){
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {
@@ -64,6 +66,7 @@ public class JournalService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Transactional
     public ResponseEntity<Void> editJournalById(String id, Journal journal, String userName){
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {

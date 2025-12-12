@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Transactional
     public ResponseEntity<UserEntity> createUser(UserEntity userEntity){
         if(userEntity.getId() == null
                 && userEntity.getPassword() != null && userEntity.getUserName() != null
@@ -47,6 +49,7 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<Void> editUserById(UserEntity userEntity){
         if(userEntity.getId() != null) {
             Optional<UserEntity> old = userRepository.findById(userEntity.getId());
@@ -59,6 +62,8 @@ public class UserService {
         }
         return new ResponseEntity<>( HttpStatus.NOT_FOUND);
     }
+
+    @Transactional
     public ResponseEntity<Void> deleteUserByUserName(String userName){
         Optional<UserEntity> user = userRepository.findByUserName(userName);
         if(user.isPresent()) {
