@@ -29,7 +29,7 @@ public class JournalService {
     public ResponseEntity<Journal> getJournalOfUserById(String id, String userName) {
         Optional<UserEntity> userEntity = userRepository.findByUserName(userName);
         if (userEntity.isPresent()) {
-            Journal journal = userEntity.get().getJournals().stream().filter(j -> j.getId().equals(id)).findFirst().orElse(null);
+            Journal journal = userEntity.get().getJournals().stream().filter(j -> j.getId().equals(id)).findAny().orElse(null);
             if (journal != null) return new ResponseEntity<>(journal, HttpStatus.OK);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

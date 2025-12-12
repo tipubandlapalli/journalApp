@@ -62,7 +62,7 @@ public class UserService {
             Optional<UserEntity> old = userRepository.findById(userEntity.getId());
             if(old.isPresent()){
                 if(userEntity.getUserName() != null && !userEntity.getUserName().trim().isEmpty()) old.get().setUserName(userEntity.getUserName());
-                if(userEntity.getPassword() != null && !userEntity.getPassword().trim().isEmpty()) old.get().setPassword(userEntity.getPassword());
+                if(userEntity.getPassword() != null && !userEntity.getPassword().trim().isEmpty()) old.get().setPassword(passwordEncoder.encode(userEntity.getPassword()));
                 userRepository.save(old.get());
                 return new ResponseEntity<>( HttpStatus.NO_CONTENT);
             }
