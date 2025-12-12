@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI}
+  security:
+    user:
+      name: user
+#      password: pwd
