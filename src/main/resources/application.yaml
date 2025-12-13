@@ -1,9 +1,11 @@
 spring:
   profiles:
     active: dev
+  config:
+    location: classpath:/, classpath:/yamlFiles/
 
 logging:
   level:
     net:
       engineeringdigest:
-        journalApp: trace
+        journalApp: info

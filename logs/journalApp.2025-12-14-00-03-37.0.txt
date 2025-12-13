@@ -1,0 +1,2 @@
+2025-12-14 00:03:37.711 [main] INFO  n.e.journalApp.JournalApplication   ||| Starting JournalApplication using Java 1.8.0_452 on Tipu with PID 15943 (/home/tipu/Downloads/Development/SPRING RE-START/journalApp/target/classes started by tipu in /home/tipu/Downloads/Development/SPRING RE-START/journalApp)
+2025-12-14 00:03:37.721 [main] INFO  n.e.journalApp.JournalApplication   ||| The following 1 profile is active: "dev"
