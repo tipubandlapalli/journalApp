@@ -1,8 +1,4 @@
 spring:
-  data:
-    mongodb:
-      uri: ${SPRING_DATA_MONGODB_URI}
-  security:
-    user:
-      name: user
-      password: pwd
+  profiles:
+    active: prod
+# same we can write in env variables of ide
