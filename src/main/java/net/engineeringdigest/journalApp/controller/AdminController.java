@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("admin")
-@Profile(Profiles.DEV_PROFILE) // <-- FIX HERE
+@Profile(Profiles.DEV_PROFILE)
 public class AdminController {
     @Autowired
             private UserService userService;

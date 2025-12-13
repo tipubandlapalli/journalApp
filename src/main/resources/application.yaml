@@ -1,4 +1,3 @@
 spring:
   profiles:
-    active: prod
-# same we can write in env variables of ide
+    active: dev
