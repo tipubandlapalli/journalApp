@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.enums;
+package net.engineeringdigest.journalapp.enums;
 
 
 import lombok.Getter;

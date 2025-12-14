@@ -1,7 +1,7 @@
-package net.engineeringdigest.journalApp.config;
+package net.engineeringdigest.journalapp.config;
 
 
-import net.engineeringdigest.journalApp.service.user.CustomUserDetailsServiceImpl;
+import net.engineeringdigest.journalapp.service.user.CustomUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

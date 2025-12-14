@@ -1,9 +1,9 @@
-package net.engineeringdigest.journalApp.controller;
+package net.engineeringdigest.journalapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import net.engineeringdigest.journalApp.api_response.WeatherApi;
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.service.user.UserService;
+import net.engineeringdigest.journalapp.api_response.WeatherApi;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class PublicController {
         this.restTemplate = restTemplate;
     }
 
-    @Value("${weather.api.key}") private String API_KEY;
-    @Value("${weather.api.string}") private String API_STRING;
+    @Value("${weather.api.key}") private String apiKey;
+    @Value("${weather.api.string}") private String apiString;
 
     @GetMapping("health-check")
     public String healthCheck(){
@@ -33,14 +33,14 @@ public class PublicController {
     }
 
     @PostMapping("create-user")
-    public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity){
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity){
         if(userEntity.getId() == null && userEntity.getPassword() != null && userEntity.getUserName() != null ){
             if(userService.findUserByUserName(userEntity.getUserName()).isPresent()){
-                return new ResponseEntity<>("try with different user name", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
             return new ResponseEntity<>(userService.createUser(userEntity), HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("in correct format", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("welcome")
@@ -48,8 +48,8 @@ public class PublicController {
         String city = "London";
         String finalAPI = String.format(
                 "http://%s?key=%s&q=%s&aqi=no",
-                API_STRING,
-                API_KEY,
+                apiString,
+                apiKey,
                 city
         );
         ResponseEntity<WeatherApi> response = restTemplate.exchange(finalAPI, HttpMethod.GET,null, WeatherApi.class);

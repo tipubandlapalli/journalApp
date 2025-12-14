@@ -1,8 +1,8 @@
-package net.engineeringdigest.journalApp.controller;
+package net.engineeringdigest.journalapp.controller;
 
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.enums.Profiles;
-import net.engineeringdigest.journalApp.service.user.UserService;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.enums.Profiles;
+import net.engineeringdigest.journalapp.service.user.UserService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

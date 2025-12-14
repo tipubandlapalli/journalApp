@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.entity;
+package net.engineeringdigest.journalapp.entity;
 
 
 import lombok.Data;

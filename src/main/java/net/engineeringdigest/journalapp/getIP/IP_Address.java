@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.getIP;
+package net.engineeringdigest.journalapp.getIP;
 
 import lombok.extern.slf4j.Slf4j;
 

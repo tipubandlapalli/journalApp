@@ -1,6 +1,6 @@
-package net.engineeringdigest.journalApp.repository;
+package net.engineeringdigest.journalapp.repository;
 
-import net.engineeringdigest.journalApp.entity.UserEntity;
+import net.engineeringdigest.journalapp.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

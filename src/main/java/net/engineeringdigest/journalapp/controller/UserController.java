@@ -1,9 +1,9 @@
-package net.engineeringdigest.journalApp.controller;
+package net.engineeringdigest.journalapp.controller;
 
 
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.securitycontext.AuthenticatedUserUtility;
-import net.engineeringdigest.journalApp.service.user.UserService;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.securitycontext.AuthenticatedUserUtility;
+import net.engineeringdigest.journalapp.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,20 +21,20 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getUser(){
+    public ResponseEntity<UserEntity> getUser(){
         UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
         return new ResponseEntity<>(userEntity, HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> editUserInfo(@RequestBody UserEntity userEntity){
+    public ResponseEntity<Void> editUserInfo(@RequestBody UserEntity userEntity){
         UserEntity existingUserEntity =  authenticatedUserUtility.getAuthenticatedUserEntity();
         userService.editUserInfo(userEntity, existingUserEntity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteUser(){
+    public ResponseEntity<Void> deleteUser(){
         String userName = authenticatedUserUtility.getUserName();
         userService.deleteUserByUserName(userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -1,8 +1,8 @@
-package net.engineeringdigest.journalApp.securitycontext;
+package net.engineeringdigest.journalapp.securitycontext;
 
 import lombok.extern.slf4j.Slf4j;
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.service.user.UserService;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.service.user.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -17,8 +17,8 @@ public class AuthenticatedUserUtility {
         this.userService = userService;
     }
 
-    //    private  static final Logger logger = LoggerFactory.getLogger(AuthenticatedUserUtility.class);
-//    when we have even one static variable we should not use @AllArgsConstructor because it won't inject that
+//  when we have even one static variable we should not use @AllArgsConstructor because it won't inject that
+//  we were using static final Logger now changed to @SLf4j
 
     public UserEntity getAuthenticatedUserEntity() throws RuntimeException {
         String userName = getUserName();

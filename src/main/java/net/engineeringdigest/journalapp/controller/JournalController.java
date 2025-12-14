@@ -1,12 +1,14 @@
-package net.engineeringdigest.journalApp.controller;
+package net.engineeringdigest.journalapp.controller;
 
-import net.engineeringdigest.journalApp.entity.Journal;
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.securitycontext.AuthenticatedUserUtility;
-import net.engineeringdigest.journalApp.service.journal.JournalService;
+import net.engineeringdigest.journalapp.entity.Journal;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.securitycontext.AuthenticatedUserUtility;
+import net.engineeringdigest.journalapp.service.journal.JournalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("journal")
@@ -21,7 +23,7 @@ public class JournalController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllJournalsOfUser(){
+    public ResponseEntity<List<Journal>> getAllJournalsOfUser(){
         UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
         return new ResponseEntity<>(userEntity.getJournals(), HttpStatus.OK);
     }
@@ -38,9 +40,9 @@ public class JournalController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addNewJournal(@RequestBody Journal journal){
+    public ResponseEntity<Journal> addNewJournal(@RequestBody Journal journal){
         if(journal.getId() != null){
-            return new ResponseEntity<>("id should be not be sent", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
         return new ResponseEntity<>(journalService.addNewJournal(journal, userEntity), HttpStatus.CREATED);

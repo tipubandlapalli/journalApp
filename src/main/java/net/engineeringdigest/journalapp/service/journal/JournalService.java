@@ -1,10 +1,9 @@
-package net.engineeringdigest.journalApp.service.journal;
+package net.engineeringdigest.journalapp.service.journal;
 
-import net.engineeringdigest.journalApp.entity.Journal;
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.repository.JournalRepository;
-import net.engineeringdigest.journalApp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import net.engineeringdigest.journalapp.entity.Journal;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.repository.JournalRepository;
+import net.engineeringdigest.journalapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

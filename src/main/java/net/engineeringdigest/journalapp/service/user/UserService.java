@@ -1,11 +1,9 @@
-package net.engineeringdigest.journalApp.service.user;
+package net.engineeringdigest.journalapp.service.user;
 
-import net.engineeringdigest.journalApp.entity.Journal;
-import net.engineeringdigest.journalApp.entity.UserEntity;
-import net.engineeringdigest.journalApp.repository.JournalRepository;
-import net.engineeringdigest.journalApp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import net.engineeringdigest.journalapp.entity.Journal;
+import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.repository.JournalRepository;
+import net.engineeringdigest.journalapp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +16,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JournalRepository journalRepository;
-    private static PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, JournalRepository journalRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.journalRepository = journalRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 

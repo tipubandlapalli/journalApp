@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.api_response;
+package net.engineeringdigest.journalapp.api_response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class WeatherApi {
         private Condition condition;
         @Data
         public static class Condition{
-            public String text;
+            private String text;
         }
 
         @JsonProperty("temp_c")

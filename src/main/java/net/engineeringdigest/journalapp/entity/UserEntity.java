@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.entity;
+package net.engineeringdigest.journalapp.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
