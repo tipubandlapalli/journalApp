@@ -4,8 +4,6 @@ import net.engineeringdigest.journalApp.entity.Journal;
 import net.engineeringdigest.journalApp.entity.UserEntity;
 import net.engineeringdigest.journalApp.securitycontext.AuthenticatedUserUtility;
 import net.engineeringdigest.journalApp.service.journal.JournalService;
-import net.engineeringdigest.journalApp.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("journal")
 public class JournalController {
-    @Autowired
-            private JournalService journalService;
-    @Autowired
-            private UserService userService;
-    @Autowired
-            private AuthenticatedUserUtility authenticatedUserUtility;
+
+    private final JournalService journalService;
+    private final AuthenticatedUserUtility authenticatedUserUtility;
+
+    public JournalController(JournalService journalService, AuthenticatedUserUtility authenticatedUserUtility) {
+        this.journalService = journalService;
+        this.authenticatedUserUtility = authenticatedUserUtility;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllJournalsOfUser(){

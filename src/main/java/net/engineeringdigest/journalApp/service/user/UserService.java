@@ -15,13 +15,16 @@ import java.util.*;
 
 @Service
 public class UserService {
-    @Autowired
-            private UserRepository userRepository;
 
-    @Autowired
-            private JournalRepository journalRepository;
+    private final UserRepository userRepository;
+    private final JournalRepository journalRepository;
+    private static PasswordEncoder passwordEncoder;
 
-    private final static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public UserService(UserRepository userRepository, JournalRepository journalRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.journalRepository = journalRepository;
+    }
+
 
     public List<UserEntity> getAllUsers(){
         return userRepository.findAll();
@@ -46,6 +49,7 @@ public class UserService {
     public boolean editUserInfo(UserEntity userEntity, UserEntity existingUserEntity){
         // USER INFO <=> ADDITIONAL INFO (at present nothing)
         // USER DETAILS <=> userName AND password
+        // LET IT SAVES THE OLD DATA ONLY (MADE FOR FUTURE USE TO EXTENDED)
         userRepository.save(existingUserEntity);
 
         return true;

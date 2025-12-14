@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class JournalService {
-    @Autowired
-        private JournalRepository journalRepository;
+    private final JournalRepository journalRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-        private UserRepository userRepository;
-
+    public JournalService(JournalRepository journalRepository, UserRepository userRepository) {
+        this.journalRepository = journalRepository;
+        this.userRepository = userRepository;
+    }
 
     public Journal getJournalOfUserById(String id, UserEntity userEntity) {
         return userEntity
@@ -47,6 +47,7 @@ public class JournalService {
         boolean isDeleted = userEntity.getJournals().removeIf(j -> j.getId().equals(id));
         if(isDeleted) {
             journalRepository.deleteById(id);
+            userRepository.save(userEntity);
             return true;
         } else {
             return  false;

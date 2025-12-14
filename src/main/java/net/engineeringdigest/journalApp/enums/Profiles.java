@@ -1,6 +1,9 @@
 package net.engineeringdigest.journalApp.enums;
 
 
+import lombok.Getter;
+
+@Getter
 public enum  Profiles {
     NEVER_USE_ME("NEVER_USE_ME_rely_only_on_finals");
 
@@ -11,10 +14,6 @@ public enum  Profiles {
 
     Profiles(String value) {
         this.value = value;
-    }
-
-    public String getValue() {
-        return value;
     }
 
     // You can remove the unused getValues() method if it was for String[]

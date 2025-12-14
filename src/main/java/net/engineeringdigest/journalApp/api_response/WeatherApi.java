@@ -2,8 +2,6 @@ package net.engineeringdigest.journalApp.api_response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class WeatherApi {
