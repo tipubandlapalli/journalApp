@@ -9,3 +9,8 @@ logging:
     net:
       engineeringdigest:
         journalApp: info
+
+weather:
+  api:
+    key: ${WEATHER_API_KEY}
+    string: ${WEATHER_API_STRING}
