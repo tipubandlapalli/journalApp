@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 
 @Slf4j
-public class IP_Address {
+public class IPAddress {
     public static void main(String[] args) {
         try {
             InetAddress ipAddress = InetAddress.getLocalHost();
