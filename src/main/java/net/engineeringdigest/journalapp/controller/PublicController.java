@@ -24,11 +24,10 @@ public class PublicController {
     private final RestTemplate restTemplate;
     private final AppCache appCache;
 
-    public PublicController(UserService userService, RestTemplate restTemplate, AppCache appCache, EmailService emailService) {
+    public PublicController(UserService userService, RestTemplate restTemplate, AppCache appCache) {
         this.userService = userService;
         this.restTemplate = restTemplate;
         this.appCache = appCache;
-        this.emailService = emailService;
     }
 
 
@@ -52,14 +51,8 @@ public class PublicController {
     /**
      * test purpose only
      */
-    @Value("${to.email.id}")
-    private String toEmailId;
-    private final EmailService emailService;
-
     @GetMapping("welcome")
     public ResponseEntity<String> welcome(){
-        emailService.sendMail(toEmailId,"test mail", "finally test succeeded");
-
         String city = appCache.getAppCacheMap().get(AppCacheKeys.CITY.getValue());
         String string = appCache.getAppCacheMap().get(AppCacheKeys.STRING.getValue());
         String key = appCache.getAppCacheMap().get(AppCacheKeys.KEY.getValue());
