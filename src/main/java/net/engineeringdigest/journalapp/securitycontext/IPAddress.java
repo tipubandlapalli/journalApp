@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalapp.getIP;
+package net.engineeringdigest.journalapp.securitycontext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,8 +11,8 @@ public class IPAddress {
     public static void main(String[] args) {
         try {
             InetAddress ipAddress = InetAddress.getLocalHost();
-            System.out.println("IP of my system is: " + ipAddress.getHostAddress());
-            System.out.println("Hostname of my system is: " + ipAddress.getHostName());
+            log.info("IP of my system is: {} ", ipAddress.getHostAddress());
+            log.info("Hostname of my system is: {}", ipAddress.getHostName());
         } catch (UnknownHostException e) {
             log.error(Arrays.toString(e.getStackTrace()));
         }

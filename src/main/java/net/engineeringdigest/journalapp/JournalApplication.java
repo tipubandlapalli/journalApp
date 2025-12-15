@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalapp;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -15,11 +16,12 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @EnableTransactionManagement
+@Slf4j
 public class JournalApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(JournalApplication.class, args);
-        System.out.println("present environments :- " +  Arrays.toString(context.getEnvironment().getActiveProfiles()));
+        log.info("present environments :- {}",  Arrays.toString(context.getEnvironment().getActiveProfiles()));
     }
     @Bean
     public PlatformTransactionManager add(MongoDatabaseFactory mongoDatabaseFactory){

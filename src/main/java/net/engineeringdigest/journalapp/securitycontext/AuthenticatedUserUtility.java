@@ -20,7 +20,7 @@ public class AuthenticatedUserUtility {
 //  when we have even one static variable we should not use @AllArgsConstructor because it won't inject that
 //  we were using static final Logger now changed to @SLf4j
 
-    public UserEntity getAuthenticatedUserEntity() throws RuntimeException {
+    public UserEntity getAuthenticatedUserEntity() {
         String userName = getUserName();
         return userService
                 .findUserByUserName(userName)

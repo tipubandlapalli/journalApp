@@ -2,7 +2,6 @@ package net.engineeringdigest.journalapp.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 
@@ -12,9 +11,10 @@ import net.engineeringdigest.journalapp.entity.UserEntity;
 public class EditUserRequest {
     private Object var1;
 
+    /**
+     * to be extended in future this is how we can do it;
+     */
     public UserEntity convert(){
-        // to be extended in future
-        // this is how we can do it;
         return new UserEntity();
     }
 }
