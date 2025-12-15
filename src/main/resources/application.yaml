@@ -3,7 +3,18 @@ spring:
     active: dev
   config:
     location: classpath:/, classpath:/yamlFiles/
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${FROM_EMAIL_ID}
+    password: ${EMAIL_APP_PASSWORD} # The generated App Password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true # For port 587
+            required: true
 logging:
   level:
     net:
@@ -14,3 +25,7 @@ weather:
   api:
     key: ${WEATHER_API_KEY}
     string: ${WEATHER_API_STRING}
+to:
+  email:
+    id:${TO_EMAIL_ID}
+

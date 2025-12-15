@@ -6,7 +6,9 @@ import net.engineeringdigest.journalapp.cache.AppCache;
 import net.engineeringdigest.journalapp.dto.NewUserCreationRequest;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import net.engineeringdigest.journalapp.enums.AppCacheKeys;
+import net.engineeringdigest.journalapp.service.EmailService;
 import net.engineeringdigest.journalapp.service.user.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +24,11 @@ public class PublicController {
     private final RestTemplate restTemplate;
     private final AppCache appCache;
 
-    public PublicController(UserService userService, RestTemplate restTemplate, AppCache appCache) {
+    public PublicController(UserService userService, RestTemplate restTemplate, AppCache appCache, EmailService emailService) {
         this.userService = userService;
         this.restTemplate = restTemplate;
         this.appCache = appCache;
+        this.emailService = emailService;
     }
 
 
@@ -46,8 +49,17 @@ public class PublicController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * test purpose only
+     */
+    @Value("${to.email.id}")
+    private String toEmailId;
+    private final EmailService emailService;
+
     @GetMapping("welcome")
     public ResponseEntity<String> welcome(){
+        emailService.sendMail(toEmailId,"test mail", "finally test succeeded");
+
         String city = appCache.getAppCacheMap().get(AppCacheKeys.CITY.getValue());
         String string = appCache.getAppCacheMap().get(AppCacheKeys.STRING.getValue());
         String key = appCache.getAppCacheMap().get(AppCacheKeys.KEY.getValue());
