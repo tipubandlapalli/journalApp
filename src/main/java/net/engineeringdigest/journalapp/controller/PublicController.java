@@ -2,10 +2,11 @@ package net.engineeringdigest.journalapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalapp.api_response.WeatherApi;
+import net.engineeringdigest.journalapp.cache.AppCache;
 import net.engineeringdigest.journalapp.dto.NewUserCreationRequest;
 import net.engineeringdigest.journalapp.entity.UserEntity;
+import net.engineeringdigest.journalapp.enums.AppCacheKeys;
 import net.engineeringdigest.journalapp.service.user.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,14 @@ public class PublicController {
 
     private final UserService userService;
     private final RestTemplate restTemplate;
+    private final AppCache appCache;
 
-    public PublicController(UserService userService, RestTemplate restTemplate) {
+    public PublicController(UserService userService, RestTemplate restTemplate, AppCache appCache) {
         this.userService = userService;
         this.restTemplate = restTemplate;
+        this.appCache = appCache;
     }
 
-    @Value("${weather.api.key}") private String apiKey;
-    @Value("${weather.api.string}") private String apiString;
 
     @GetMapping("health-check")
     public String healthCheck(){
@@ -35,7 +36,6 @@ public class PublicController {
 
     @PostMapping("create-user")
     public ResponseEntity<UserEntity> createUser(@RequestBody NewUserCreationRequest newUserCreationRequest){
-
         if(newUserCreationRequest.isNotNull()){
             UserEntity userEntity = newUserCreationRequest.convert();
             if(userService.findUserByUserName(userEntity.getUserName()).isPresent()){
@@ -48,13 +48,12 @@ public class PublicController {
 
     @GetMapping("welcome")
     public ResponseEntity<String> welcome(){
-        String city = "London";
-        String finalAPI = String.format(
-                "http://%s?key=%s&q=%s&aqi=no",
-                apiString,
-                apiKey,
-                city
-        );
+        String city = appCache.getAppCacheMap().get(AppCacheKeys.CITY.getValue());
+        String string = appCache.getAppCacheMap().get(AppCacheKeys.STRING.getValue());
+        String key = appCache.getAppCacheMap().get(AppCacheKeys.KEY.getValue());
+
+        String finalAPI = string.replace("<key>", key).replace("<city>", city);
+
         ResponseEntity<WeatherApi> response = restTemplate.exchange(finalAPI, HttpMethod.GET,null, WeatherApi.class);
         String greeting = "Hi there, welcome to journalApp";
 

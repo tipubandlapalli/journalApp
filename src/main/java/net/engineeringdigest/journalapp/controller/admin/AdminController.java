@@ -1,9 +1,7 @@
-package net.engineeringdigest.journalapp.controller;
+package net.engineeringdigest.journalapp.controller.admin;
 
 import net.engineeringdigest.journalapp.entity.UserEntity;
-import net.engineeringdigest.journalapp.enums.Profiles;
 import net.engineeringdigest.journalapp.service.user.UserService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("admin")
-@Profile(Profiles.DEV_PROFILE)
 public class AdminController {
 
     private final UserService userService;
