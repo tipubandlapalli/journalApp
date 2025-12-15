@@ -2,6 +2,7 @@ package net.engineeringdigest.journalapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalapp.api_response.WeatherApi;
+import net.engineeringdigest.journalapp.dto.NewUserCreationRequest;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import net.engineeringdigest.journalapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,8 +34,10 @@ public class PublicController {
     }
 
     @PostMapping("create-user")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity){
-        if(userEntity.getId() == null && userEntity.getPassword() != null && userEntity.getUserName() != null ){
+    public ResponseEntity<UserEntity> createUser(@RequestBody NewUserCreationRequest newUserCreationRequest){
+
+        if(newUserCreationRequest.isNotNull()){
+            UserEntity userEntity = newUserCreationRequest.convert();
             if(userService.findUserByUserName(userEntity.getUserName()).isPresent()){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }

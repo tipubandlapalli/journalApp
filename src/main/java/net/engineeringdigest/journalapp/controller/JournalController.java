@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalapp.controller;
 
+import net.engineeringdigest.journalapp.dto.JournalRequest;
 import net.engineeringdigest.journalapp.entity.Journal;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import net.engineeringdigest.journalapp.securitycontext.AuthenticatedUserUtility;
@@ -40,12 +41,15 @@ public class JournalController {
     }
 
     @PostMapping
-    public ResponseEntity<Journal> addNewJournal(@RequestBody Journal journal){
-        if(journal.getId() != null){
+    public ResponseEntity<Journal> addNewJournal(@RequestBody JournalRequest journalRequest){
+
+        if(journalRequest.getTitle() == null || journalRequest.getContent() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            Journal journal = journalRequest.convert();
+            UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
+            return new ResponseEntity<>(journalService.addNewJournal(journal, userEntity), HttpStatus.CREATED);
         }
-        UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
-        return new ResponseEntity<>(journalService.addNewJournal(journal, userEntity), HttpStatus.CREATED);
     }
 
     @DeleteMapping("id/{id}")
@@ -59,11 +63,11 @@ public class JournalController {
     }
 
     @PutMapping("id/{id}")
-    public ResponseEntity<Void> edit(@PathVariable String id, @RequestBody Journal journal){
-
+    public ResponseEntity<Void> edit(@PathVariable String id, @RequestBody JournalRequest journalRequest){
         UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
+        Journal journal = journalRequest.convert();
 
-        if( journalService.editJournalById(id, journal, userEntity)){
+        if( journalService.editJournalById(id, journal , userEntity)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

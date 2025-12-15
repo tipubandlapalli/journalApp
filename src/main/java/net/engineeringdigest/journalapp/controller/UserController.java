@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalapp.controller;
 
 
+import net.engineeringdigest.journalapp.dto.EditUserRequest;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import net.engineeringdigest.journalapp.securitycontext.AuthenticatedUserUtility;
 import net.engineeringdigest.journalapp.service.user.UserService;
@@ -27,8 +28,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> editUserInfo(@RequestBody UserEntity userEntity){
+    public ResponseEntity<Void> editUserInfo(@RequestBody EditUserRequest editUserRequest){
         UserEntity existingUserEntity =  authenticatedUserUtility.getAuthenticatedUserEntity();
+        UserEntity userEntity = editUserRequest.convert();
         userService.editUserInfo(userEntity, existingUserEntity);
         return new ResponseEntity<>(HttpStatus.OK);
     }

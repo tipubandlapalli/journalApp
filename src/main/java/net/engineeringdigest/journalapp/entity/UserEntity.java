@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import lombok.ToString;
@@ -14,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@NoArgsConstructor
 @Document(collection = "users")
 public class UserEntity {
 
