@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalapp.repository;
+package net.engineeringdigest.journalapp.repository.user;
 
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;

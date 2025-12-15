@@ -1,17 +1,14 @@
 package net.engineeringdigest.journalapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import net.engineeringdigest.journalapp.entity.Journal;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class JournalRequest {
-    private String title;
-    private String content;
+    private final String title;
+    private final String content;
 
     public Journal convert(){
         Journal journal = new Journal();

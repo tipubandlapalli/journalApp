@@ -36,4 +36,8 @@ public class UserEntity {
     private List<String> roles;
 
     private LocalDateTime localDateTime;
+
+    private Boolean optForSA;
+
+    private String email;
 }

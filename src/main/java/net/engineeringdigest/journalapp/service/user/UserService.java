@@ -3,7 +3,7 @@ package net.engineeringdigest.journalapp.service.user;
 import net.engineeringdigest.journalapp.entity.Journal;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import net.engineeringdigest.journalapp.repository.JournalRepository;
-import net.engineeringdigest.journalapp.repository.UserRepository;
+import net.engineeringdigest.journalapp.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +48,8 @@ public class UserService {
     public boolean editUserInfo(UserEntity userEntity, UserEntity existingUserEntity){
         // USER INFO <=> ADDITIONAL INFO (at present nothing)
         // USER DETAILS <=> userName AND password
-        // LET IT SAVES THE OLD DATA ONLY (MADE FOR FUTURE USE TO EXTENDED)
+        if(userEntity.getEmail() != null) existingUserEntity.setEmail(userEntity.getEmail());
+        if(userEntity.getOptForSA() != null) existingUserEntity.setOptForSA(userEntity.getOptForSA());
         userRepository.save(existingUserEntity);
 
         return true;

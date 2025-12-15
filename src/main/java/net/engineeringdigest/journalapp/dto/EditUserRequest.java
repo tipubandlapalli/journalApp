@@ -1,20 +1,22 @@
 package net.engineeringdigest.journalapp.dto;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class EditUserRequest {
-    private Object var1;
 
-    /**
-     * to be extended in future this is how we can do it;
-     */
+    private final Boolean optForSA;
+    private final String email;
+
     public UserEntity convert(){
-        return new UserEntity();
+        UserEntity userEntity = new UserEntity();
+        if(optForSA != null) userEntity.setOptForSA(optForSA);
+        if(email != null) userEntity.setEmail(email);
+        return userEntity;
     }
 }

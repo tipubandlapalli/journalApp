@@ -34,4 +34,6 @@ build/
 ### VS Code ###
 .vscode/
 
+simple.log
+logs
 TOP_SECRET_ENV_ALWAYS_GITIGNORE/

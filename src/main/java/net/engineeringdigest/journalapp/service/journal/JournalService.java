@@ -3,7 +3,7 @@ package net.engineeringdigest.journalapp.service.journal;
 import net.engineeringdigest.journalapp.entity.Journal;
 import net.engineeringdigest.journalapp.entity.UserEntity;
 import net.engineeringdigest.journalapp.repository.JournalRepository;
-import net.engineeringdigest.journalapp.repository.UserRepository;
+import net.engineeringdigest.journalapp.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

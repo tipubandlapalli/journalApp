@@ -6,11 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@Component
+@Builder
 public class NewUserCreationRequest {
-    private String userName;
-    private String password;
+    private final String userName;
+    private final String password;
 
     public boolean isNotNull(){
         return userName != null && password != null;
