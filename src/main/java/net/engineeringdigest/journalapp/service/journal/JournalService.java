@@ -61,6 +61,7 @@ public class JournalService {
         if(existingJournal.isPresent()) {
             if(journal.getTitle() != null) existingJournal.get().setTitle(journal.getTitle());
             if(journal.getContent() != null) existingJournal.get().setContent(journal.getContent());
+            if(journal.getSentiment() != null) existingJournal.get().setSentiment(journal.getSentiment());
             journalRepository.save(existingJournal.get());
             return true;
         }

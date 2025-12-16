@@ -42,14 +42,9 @@ public class JournalController {
 
     @PostMapping
     public ResponseEntity<Journal> addNewJournal(@RequestBody JournalRequest journalRequest){
-
-        if(journalRequest.getTitle() == null || journalRequest.getContent() == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            Journal journal = journalRequest.convert();
-            UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
-            return new ResponseEntity<>(journalService.addNewJournal(journal, userEntity), HttpStatus.CREATED);
-        }
+        Journal journal = journalRequest.convert();
+        UserEntity userEntity = authenticatedUserUtility.getAuthenticatedUserEntity();
+        return new ResponseEntity<>(journalService.addNewJournal(journal, userEntity), HttpStatus.CREATED);
     }
 
     @DeleteMapping("id/{id}")

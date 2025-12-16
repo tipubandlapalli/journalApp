@@ -21,4 +21,5 @@ public class Journal {
     @NonNull
     private String title;
     private LocalDateTime localDateTime;
+    private Float sentiment;
 }
