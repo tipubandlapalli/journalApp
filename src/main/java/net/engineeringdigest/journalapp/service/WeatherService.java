@@ -32,21 +32,21 @@ public class WeatherService {
 
     private WeatherApi getWeather(String city){
         String key = AppCacheKeys.WEATHER_OF_ + city.toUpperCase();
+        WeatherApi weatherApi = null;
         try {
-            WeatherApi weatherApi = redisService.get(key, WeatherApi.class);
-            if(weatherApi != null) {
-                return weatherApi;
-            } else {
+            weatherApi = redisService.get(key, WeatherApi.class);
+            if(weatherApi == null) {
                 ResponseEntity<WeatherApi> response = getWeatherFromApp(city);
                 if(response.getStatusCode().is2xxSuccessful() && response.getBody() != null ){
+                    weatherApi = response.getBody();
                     redisService.set(key, weatherApi);
-                    return response.getBody();
                 }
             }
         } catch (IOException e) {
             log.error(e.getMessage());
+        } finally {
+            return weatherApi;
         }
-        return null;
     }
 
     public String getGreeting(String city){
