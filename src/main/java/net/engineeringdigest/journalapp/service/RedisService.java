@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class RedisService {
 
     public <VALUE> void set(String keyString, VALUE value) throws JsonProcessingException {
         String valueString = objectMapper.writeValueAsString(value);
-        redisTemplate.opsForValue().set(keyString, valueString, 300);
+        redisTemplate.opsForValue().set(keyString, valueString, 2, TimeUnit.MINUTES);
     }
 
     public <T> T get(String keyString, Class<T> targetClass) throws IOException {

@@ -16,8 +16,7 @@ spring:
             enable: true # For port 587
             required: true
   redis:
-    host: 127.0.0.1
-    port: 6379
+    uri: ${REDIS_URI}
 
 logging:
   level:

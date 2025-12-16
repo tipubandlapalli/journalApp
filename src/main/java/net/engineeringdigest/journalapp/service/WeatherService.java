@@ -1,13 +1,10 @@
 package net.engineeringdigest.journalapp.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.beans.binding.When;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalapp.api_response.WeatherApi;
 import net.engineeringdigest.journalapp.cache.AppCache;
 import net.engineeringdigest.journalapp.enums.AppCacheKeys;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 
 import org.springframework.http.ResponseEntity;
@@ -25,19 +22,12 @@ public class WeatherService {
     private final AppCache appCache;
     private final RedisService redisService;
 
-    private WeatherApi getWeatherFromApp(String city){
+    private ResponseEntity<WeatherApi> getWeatherFromApp(String city){
         String string = appCache.getAppCacheMap().get(AppCacheKeys.STRING.getValue());
         String key = appCache.getAppCacheMap().get(AppCacheKeys.KEY.getValue());
 
         String finalAPI = string.replace("<key>", key).replace("<city>", city);
-        ResponseEntity<WeatherApi> response = restTemplate.exchange(finalAPI, HttpMethod.GET,null, WeatherApi.class);
-
-        if(response.getStatusCode().is2xxSuccessful() && response.getBody() != null){
-            return response.getBody();
-        } else {
-            log.error("Weather API failed with status: {}", response.getStatusCode());
-            return null;
-        }
+        return restTemplate.exchange(finalAPI, HttpMethod.GET,null, WeatherApi.class);
     }
 
     private WeatherApi getWeather(String city){
@@ -45,22 +35,24 @@ public class WeatherService {
         try {
             WeatherApi weatherApi = redisService.get(key, WeatherApi.class);
             if(weatherApi != null) {
+                return weatherApi;
             } else {
-                weatherApi = getWeatherFromApp(city);
-                if(weatherApi != null){
+                ResponseEntity<WeatherApi> response = getWeatherFromApp(city);
+                if(response.getStatusCode().is2xxSuccessful() && response.getBody() != null ){
                     redisService.set(key, weatherApi);
+                    return response.getBody();
                 }
             }
-            return weatherApi;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
         }
+        return null;
     }
 
     public String getGreeting(String city){
         String greeting = "Hi there, welcome to journalApp";
         WeatherApi response = getWeather(city);
-        System.out.println(response.toString());
+
         if(response != null) {
             WeatherApi.Current current = response.getCurrent();
             greeting = greeting + " \n" + "now it's " + current.getTempC() + "Celsius here in " + city + ", but feels like " + current.getFeelslikeC() + " \n" + "it's hint you might to start with";
