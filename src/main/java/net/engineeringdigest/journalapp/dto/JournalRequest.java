@@ -15,11 +15,7 @@ public class JournalRequest {
         Journal journal = new Journal();
         if(content != null) journal.setContent(content);
         if(title != null) journal.setTitle(title);
-        if(sentiment != null) {
-            journal.setSentiment(sentiment);
-        } else {
-            journal.setSentiment(5.0f);
-        }
+        if(sentiment != null && sentiment >= 0 && sentiment <= 10) journal.setSentiment(sentiment);
         return journal;
     }
 }

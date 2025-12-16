@@ -34,6 +34,7 @@ public class JournalService {
 
     @Transactional
     public Journal addNewJournal(Journal journal, UserEntity userEntity){
+        if(journal.getSentiment() == null) journal.setSentiment(5.0f);
         journal.setLocalDateTime(LocalDateTime.now());
             Journal saved = journalRepository.save(journal);
         userEntity.getJournals().add(saved);

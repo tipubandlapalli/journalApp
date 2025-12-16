@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @EnableScheduling
@@ -32,12 +31,18 @@ public class UserScheduler {
     public void sendEmails(){
         List<UserEntity> users = userEntityForSARepository.getAllUsersForSA();
         for(UserEntity user: users){
-            String str = user.getJournals()
+            Double sentimentOfLastSevenDays = user.getJournals()
                     .stream()
                     .filter(j -> j.getLocalDateTime().isAfter(LocalDateTime.now().minusDays(7)))
-                    .map(Journal::getContent)
-                    .collect(Collectors.joining("; "));
-            emailService.sendMail(user.getEmail(), " Sentiment Analysis", "last 7 days your sentiment" +  sentimentAnalysisService.fetch(str));
+                    .filter(j -> j.getSentiment() != null)
+                    .mapToDouble(Journal::getSentiment)
+                    .average()
+                    .orElse(5);
+            emailService.sendMail(
+                    user.getEmail(),
+                    "Sentiment Analysis : " + sentimentOfLastSevenDays,
+                    "last 7 days your sentiment out of 10 was: " +  sentimentAnalysisService.fetch(sentimentOfLastSevenDays)
+            );
         }
     }
 }
