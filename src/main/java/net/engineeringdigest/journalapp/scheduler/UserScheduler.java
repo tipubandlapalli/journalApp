@@ -27,7 +27,7 @@ public class UserScheduler {
         this.userEntityForSARepository = userEntityForSARepository;
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 0 * * 0")
     public void sendEmails(){
         List<UserEntity> users = userEntityForSARepository.getAllUsersForSA();
         for(UserEntity user: users){
